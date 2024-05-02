@@ -1,36 +1,22 @@
 
-if (!require("librarian")) install.packages("librarian")
-librarian::shelf(tidyverse, shinydashboard, plotly, reactable, scales, ggsci, shinyWidgets)
+library(tidyverse)
+library(shinydashboard)
+library(plotly)
+library(reactable)
+library(scales)
+library(ggsci)
+library(shinyWidgets)
 
 # inputs ----
-# WAGE VALUES (national averages)
-wages <- readxl::read_excel("bls-wages-2020.xlsx") %>%
-  filter(OCC_CODE %in% c("19-3030", # psychologist
-                         "19-3031", # clinical, counseling, and school psychologist
-                         "21-1018", # substance abuse and behavioral counselors
-                         "21-1000", # counselors, social workers, and other
-                         "21-1023", # mental health and sub abuse social workers
-                         #"29-1223", # psychiatrist
-                         "29-1171", # nurse practitioner
-                         "19-4061", # social science research analyst
-                         "31-9092", # medical assistants
-                         "29-1215"  # family med physicians
-  )) %>%
-  select(OCC_CODE, OCC_TITLE, H_MEAN, H_MEDIAN, A_MEAN, H_PCT90) %>%
-  
-  
-  
-  mutate(hourly = if_else(str_detect(OCC_TITLE, "Psychologist"), 
-                          H_PCT90, 
-                          H_MEDIAN))
+# WAGE VALUES (national averages, from ~2020 BLS wages)
+blsWageCounselor <- 22.83
+blsWageTrainer <- 66.61
+blsWageSupervisor <- 66.61
+blsWageProjectDirector <- 66.61
+blsWageRAtype <- 23.66
+blsWageMD <- 99.7
+blsWageNP <- 53.69
 
-blsWageCounselor <- wages %>% filter(OCC_CODE=="21-1000") %>% pull(hourly)
-blsWageTrainer <- wages %>% filter(OCC_CODE=="19-3031") %>% pull(hourly)
-blsWageSupervisor <- wages %>% filter(OCC_CODE=="19-3031") %>% pull(hourly)
-blsWageProjectDirector <- wages %>% filter(OCC_CODE=="19-3031") %>% pull(hourly)
-blsWageRAtype <- wages %>% filter(OCC_CODE=="19-4061") %>% pull(hourly)
-blsWageMD <- wages %>% filter(OCC_CODE=="29-1215") %>% pull(hourly)
-blsWageNP <- wages %>% filter(OCC_CODE=="29-1171") %>% pull(hourly) 
 
 jobList <- c("Patient Counselor", 
              "Administrative Staff", 
