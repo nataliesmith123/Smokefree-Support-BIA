@@ -153,8 +153,7 @@ ui <- dashboardPage(
               h3("References"), 
               HTML("<p>The results of the original clinical trial were published in the Journal of the American Medical Association in 2020: <a href=https://pubmed.ncbi.nlm.nih.gov/33048154/>https://pubmed.ncbi.nlm.nih.gov/33048154/</a></p>"), 
               HTML("<p>And cost-effectiveness results were published in JAMA Network Open in 2022: <a href=https://pubmed.ncbi.nlm.nih.gov/35679043/>https://pubmed.ncbi.nlm.nih.gov/35679043/</a></p>")
-              )
-              , 
+              )), 
       # HTML("<p>Contact a member of the study team at <a href='mailto: xxx@mgh.harvard.edu'>this email</a> with any questions.</p>")), 
       
       
