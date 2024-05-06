@@ -107,19 +107,36 @@ ui <- dashboardPage(
       tabItem(tabName = "intro", 
               h2("Welcome to the Smokefree Support Study cost calculator!"),
               
-              box(title = "Overview", 
-                  width = 8, 
-                  HTML("<p>The purpose of this calculator is to help stakeholders like you estimate what it might cost to implement a successful smoking cessation program for patients receiving treatment for cancer, evaluated in the <a href='https://pubmed.ncbi.nlm.nih.gov/33048154/'>Smokefree Support Study</a>, a clinical trial. This calculator takes the results from that trial and allows users to adjust inputs to reflect characteristics of their individual setting such as staffing and patient volume.</p>"),
+              tabBox(
+                     width = 8, 
+                     tabPanel(title = "About the program",
+                              p("The purpose of this tool is to help people like you estimate what it might cost to implement a successful smoking cessation program in your own setting."), 
+                              
+                              HTML("<p>This program is called the <a href='https://pubmed.ncbi.nlm.nih.gov/33048154/'>Smokefree Support Study</a> and is for patients receiving treatment for cancer. 
+                                   The general flow of the program is shown to the right.</p>"),
+                              
+                              p("This tool takes the results from that trial and allows users to adjust inputs to reflect characteristics of their individual setting such as staffing and patient volume."),
+                              
+                              p(strong("Key Results:"), "The trial found that 34.5% of patients who received an intensive smoking cessation program quit, while 21.5% of those who received standard smoking cessation guidance quit. 
+                    Using existing literature, we expect that an estimated 14.3% of individuals would quit smoking under referral to the state quit line, which we consider to be 'usual care'.")
+                     ),
                   
-                  p(strong("The intervention:"), "Participants in the intervention (in the trial it was called 'intensive care') were offered 4 weekly telephone counseling sessions, 4 biweekly telephone sessions delivered over 2 months, and 3 telephone booster sessions delivered monthly. The intervention also included offering participants their choice of 12 weeks of FDA-approved smoking cessation medication at no cost, paid for by the cancer center. The medication selected by participants was appended as a prescription in the EHR and dispensed (in person or mailed) according to Public Health Service guidelines. Participants received an initial 4-week supply of FDA-approved smoking cessation medication (varenicline, bupropion sustained release, single or combination nicotine replacement therapy patch and/or lozenges) with the option of receiving up to 2 additional 4-week supplies."),
-                  
-                  p("The general flow of the intervention is shown to the right."),
-                  
-                  p("Participants in the comparison group, standard care, were offered 4 weekly telephone counseling sessions plus education and advice regarding cessation medications."),
-                  
-                  p(strong("Results:"), "The trial found that 34.5% of patients who received intensive care quit, while 21.5% of those who received standard care quit. We have also estimated that about 14.3% of individuals would quit under usual care (referral to the state quit line)."),
-                  
-                  p(strong("Getting started:"), "This calculator is designed to help you and your clinic think through what it might take to implement the Smokefree Support intervention for cancer patients. On this first page, we are asking you tell us a few things about your cancer center and how the intervention might be undertaken in your context. It's ok if you don't know exactly - you can always come back and see how your costs might change under different values, scenarios, and contingencies.")), 
+                  tabPanel(title = "More program details", 
+                           
+                           p(strong("The program:"), "Participants in the program (in the trial it was called 'intensive care') were offered 4 weekly telephone counseling sessions, 
+                    4 telephone sessions delivered every-other-week over 2 months, and 3 telephone booster sessions delivered monthly. 
+                    The program also included offering participants their choice of 12 weeks of FDA-approved smoking cessation medication at no cost, paid for by the cancer center. 
+                    The medication selected by participants was appended as a prescription in the EHR and dispensed (in person or mailed) according to Public Health Service guidelines. 
+                    Participants received an initial 4-week supply of FDA-approved smoking cessation medication (varenicline, bupropion sustained release, single or combination nicotine 
+                    replacement therapy patch and/or lozenges) with the option of receiving up to 2 additional 4-week supplies."),
+                           
+                           
+                           p("Participants in the comparison group, standard care, were offered 4 weekly telephone counseling sessions plus education and advice regarding cessation medications."),
+                           
+                           
+                           p(strong("Getting started:"), "This calculator is designed to help you and your clinic think through what it might take to implement the Smokefree Support program for cancer patients. On this first page, we are asking you tell us a few things about your cancer center and how the program might be undertaken in your context. It's ok if you don't know exactly - you can always come back and see how your costs might change under different values, scenarios, and contingencies.")
+                           )
+                  ), 
               
               box(title = "Flow of Program", 
                   width = 4,
@@ -142,7 +159,8 @@ ui <- dashboardPage(
       ### input1 - recruitment ----
       tabItem(tabName = "input1",
               fluidPage(
-              h3("Any of these numbers can be modified to be more specific to your context. It's ok if you don't know exactly - this is just to get started. You can always come back and see how your costs might change under different values."),
+              box(width=12, 
+                  h3("Any of these numbers can be modified to be more specific to your context. It's ok if you don't know exactly - this is just to get started. You can always come back and see how your costs might change under different values.")),
               
               box(title = "Monthly Recruitment Estimates",
                   width=12,
@@ -151,20 +169,22 @@ ui <- dashboardPage(
                   
                   #p("This asks about how many patients you think might be available for screening, eligible, and formally recruited."),
                   
-                  h4("How many patients does your clinic see per month?"), 
+                  h4("How many patients are potentially eligible to receive a smoking cessation program?"), 
+                  p("Depending on where you are considering implementing the program, this could - for example - be one clinic or span multiple practices."),
                   numericInput("clinicPatients", NULL, value=500, min=0, step=1, width="20%"),
-                  p("Note: If you have an idea of how many smokers your clinic regularly sees, then you can input that number here and set the next slider to 100%"),
+                  p("Note: If you already have an idea of the number of potentially eligible people who smoke, then you can input that number here and set the next slider to 100%"),
                   
                   tags$br(),
                   
-                  h4("Of those patients, what percentage are smokers?"), 
+                  h4("Of those patients, what percentage are people who smoke?"), 
                   sliderInput("smokerPatients", NULL, value=12.5, min=0, max=100, step=0.5, width="50%"), 
                   
                   tags$br(),
                   
                   
-                  h4("How many smokers do you anticipate inviting to the program?"), 
+                  h4("What percentage of those patients do you anticipate inviting to the program?"), 
                   p("Prior work has done this by first mailing introductory letters or sending a message to patients via the EHR system, and then subseqently having tobacco treatment staff call patients."), 
+                  p("We suggest leaving this at 100% so that all eligible patients are invited."),
                   sliderInput("eligiblePatients", NULL, value=100, min=0, max=100, step=1, width="50%"),
                   
                   tags$br(),
@@ -187,7 +207,8 @@ ui <- dashboardPage(
               
               fluidPage(
                 
-                h3("Once patients are identified as a smoker via the EHR, there are a variety of tasks that need to be performed."),
+                box(width=12, 
+                    h3("Once eligible patients are identified via the EHR, there are a variety of tasks that need to be performed.")),
                 
                 box(title = "Flow of Program", 
                     width = 4,
@@ -197,9 +218,10 @@ ui <- dashboardPage(
                 box(title = "Program Tasks", 
                     width=8, 
                     
-                    p("We have provided initial values for these, but all can be changed to align with your context."),
+                    p("We have set the defaults to who we assume would complete these tasks, but all can be changed to align with your context."),
                     
-                    # p("In some cases, a task might not need to be performed based on the workflow in your clinic, scope of practice laws, or other reasons. If that is the case, please make sure to note this by using the 'Not Applicable' option."),
+                    p("In some cases, a task might not need to be performed based on the workflow in your clinic, scope of practice laws, or other reasons. If that is the case, please make sure to note this by using the 'Not Applicable' option."),
+                    
                     tags$ul(
                       
                       tags$li(h4("Who will send introductory letters?"),
@@ -216,7 +238,8 @@ ui <- dashboardPage(
                               selectizeInput("taskCounseling", NULL, jobList, width="50%", selected=jobList[[1]],  multiple = TRUE, options = list(maxItems = 1))), 
                       
                       tags$li(h4("Ordering smoking cessation medication"),
-                              p("Will the patient's oncologist have to order the pended smoking cessation medications?"), 
+                              p("Will the patient's oncologist have to approve smoking cessation medications?"), 
+                              p("In some contexts, medications can be ordered by cessation counselors but have to be approved by a supervising MD."),
                               radioButtons("reconcileYN", NULL, choices = c("yes", "no")),
                       ), 
                       
@@ -250,12 +273,7 @@ ui <- dashboardPage(
                               p("Participants may have concerns that arise throughout the program. Who would likely be in charge of handling these concerns?"),
                               selectizeInput("taskEmergencies", NULL, jobList, width="50%", selected=jobList[[4]],  multiple = TRUE, options = list(maxItems = 1)))
                     ),
-                    
-                     
-                    
-
-                    
-                    )
+                )
               )
       ), 
       
@@ -265,10 +283,9 @@ ui <- dashboardPage(
               fluidRow(infoBoxOutput("recruitmentCallOut")
               ),
               
-              fluidPage(
-                
-                h3("What are the expected wages for each role?"),
-                
+              fluidRow(box(width=12, h3("What are the expected wages for each role?"))),
+              
+              fluidRow(
                 
                 box(title = "Patient Counselors", 
                     width=6, 
@@ -320,7 +337,6 @@ ui <- dashboardPage(
                       condition = "input.reconcileYN=='no'", 
                       p("Because no ordering of pending medications / medication reconciliation is needed, no MD time is needed for program delivery.")
                     )
-                    
                 ), 
                 
                 box(title = "Counselor/Clinic Supervisor", 
@@ -331,8 +347,6 @@ ui <- dashboardPage(
                     ),
                     numericInput("supervisorWage", NULL, blsWageSupervisor, width='30%') 
                 )
-                
-                
               )
               
       ), # end inputs 3
@@ -344,10 +358,20 @@ ui <- dashboardPage(
       
       ### outputs ----
       tabItem(tabName="output1",
+              fluidRow(
+                box(
+                  width=12,
+                  h3("Using the values you've provided, we have calculated what you might need to budget over one year to support the Smokefree Support program"),
+                  p("Remember! You can always return to earlier pages and change input values to see how that might change what you could expect to pay.")
+                  )
+                ),
               
               #### row 1: call out boxes ----
-              fluidRow(infoBoxOutput("costCallout", width=6),
-                       infoBoxOutput("calloutTwo", width=6)
+              fluidRow(infoBoxOutput("x12monthCosts", width=3),
+                       infoBoxOutput("recruitmentCallOut2", width=3),
+                       infoBoxOutput("costCallout", width=3),
+                       infoBoxOutput("calloutTwo", width=3) 
+                       
               ), # end fluid row of info boxes
               
               
@@ -362,12 +386,21 @@ ui <- dashboardPage(
                       # tabPanel(title = "regular", 
                       #          plotlyOutput("altPlot")), 
                       tabPanel(title = "Costs Over Time",
-                               plotlyOutput("overTime")), 
-                      # tabPanel(title = "table", 
-                      #          reactableOutput("tableTest")), 
+                               p("Expected costs per month given estimated recruitment."),
+                               plotlyOutput("overTime"), 
+                               p("These costs appear 'staggered' because we assume constant, rolling recruitment into the program. Because patients receive 3 months of medication and up to 6 months of counseling, then the maximum monthly costs will be reached after 6 months of implementation."), 
+                               p("If recruitment tapers over time, then you can expect lower costs.")
+                               ), 
+                      tabPanel(title = "Costs Over Time (table)",
+                               reactableOutput("tableTest")),
                       # tabPanel(title = "FTE Table", 
                       #          reactableOutput("fteTable")), 
-                      tabPanel(title = "FTE Over Time", 
+                      
+                      # tabPanel(title = "Monthly Over Time", 
+                      #          p("Monthly costs over time"),
+                      #          plotlyOutput("monthlyCostsPlot")),
+                      tabPanel(title = "FTE Over Time (graph)", 
+                               p("Expected FTE's per month given estimated recruitment."),
                                plotlyOutput("FTEplotTime"))
                       
                     )), # end tab box
@@ -385,8 +418,6 @@ ui <- dashboardPage(
                                     p("Patients enrolled in the program receive 3 months of medication, and 6 months of counseling sessions (weekly in month 1, every-other-week in months 2 and 3, and monthly in months 4, 5, and 6 (11 total sessions)."),
                                     p("We assume constant, rolling recruitment into the program. This means that it will take 3-6 months until the maximum costs are reached."),
                                     p("If recruitment tapers over time, then you can expect lower costs.")
-                                    
-                                    
                                     ),
                            
                            
@@ -436,7 +467,7 @@ ui <- dashboardPage(
                            tabPanel(title="Medication",
                                     
                                     # h4("Will your clinic be providing smoking cessation medications directly to patients?"), 
-                                    # p(strong("Note: intervention may not work as well if medication is not provided to patients")),
+                                    # p(strong("Note: program may not work as well if medication is not provided to patients")),
                                     # p("If this box is checked, then we will calculate the expected costs of medications using average numbers of medications prescribed and the costs of medications shown below."), 
                                     # checkboxInput("medsrequired", "Medications will be provided.", TRUE),
                                     
@@ -608,7 +639,7 @@ server <- function(input, output, session) {
                                  
                                  # initial number is across IT and ST, so it is actually the number of emergencies for 176 or 109 people, not the 'recruited' people. 
                                  # adjust here to be 'emergencies per recruited patient' so that when it is scaled to # of people recruited it is appropriate.
-                                 # ALSO, this is across the entirety of the intervention, so adjust to be 
+                                 # ALSO, this is across the entirety of the program, so adjust to be 
                                  # issues/patient/month
                                  # 52 months found in '2. MGH Medication' sheet, cell D33
                                  
@@ -747,7 +778,7 @@ server <- function(input, output, session) {
   
 
   
-  #### Physical space for intervention team ----
+  #### Physical space for program team ----
   spaceCostPerMonth <- reactive({FTE()*spaceCostPerFTEperMonth()})
   
   
@@ -988,6 +1019,18 @@ server <- function(input, output, session) {
              label3 = paste0("Total ", Category, ": ", costF, 
                              "\n", label2))})
   
+  monthlyTotals <- reactive({monthlyCosts() %>%
+      group_by(month) %>%
+      summarise(totalCostsMonthly = sum(cost), 
+                .groups = "drop") %>%
+      mutate(totalCostsMonthlyF = scales::dollar(totalCostsMonthly, largest_with_cents=1))
+    })
+  
+  totalCosts <- reactive({monthlyCosts() %>%
+      summarise(totalCosts = sum(cost)) %>%
+      mutate(costF = scales::dollar(totalCosts, largest_with_cents=1))
+  })
+  
   
   FTEs <- reactive({monthlyCosts() %>%
       filter(units=="hours") %>%
@@ -1023,7 +1066,7 @@ server <- function(input, output, session) {
       value = scales::dollar(sum((monthlyCosts() %>% filter(Category=="Training"))$cost), largest_with_cents=1),
       title = paste0("One-time training costs"),
       icon = icon("dollar-sign"),
-      color = "purple"
+      color = "olive"
     )
   })
   
@@ -1031,12 +1074,12 @@ server <- function(input, output, session) {
   numberNeededToTreat <- round(100/(34.5-14.3), digits=0)
   
   output$calloutTwo <- renderInfoBox({
-    infoBox(title = "Number Needed To Treat (Intervention vs. Usual Care)", 
+    infoBox(title = "Number Needed To Treat (program vs. Usual Care)", 
             value = paste0(numberNeededToTreat, " participants treated per 1 additional quit"), 
             # title = paste0("Monthly costs to recruit and enroll ", patientsRecruited(), " patients"),
             # value = scales::dollar(sum((bigData() %>% filter(recurrence=="monthly" & category=="Enrollment"))$cost), largest_with_cents=1),
             icon = icon("chart-bar"),
-            color = "green")
+            color = "light-blue")
   })
   
   #### Recruitment ----
@@ -1046,6 +1089,23 @@ server <- function(input, output, session) {
                           digits=0), " per month"), 
             icon = icon("chart-bar"),
             color = "fuchsia")
+  })
+  
+  output$recruitmentCallOut2 <- renderInfoBox({
+    infoBox(title = "Expected Patients Recruited", 
+            value = paste0(round(patientsRecruited(), 
+                                 digits=0), " per month"), 
+            icon = icon("chart-bar"),
+            color = "fuchsia")
+  })
+  
+  
+  
+  output$x12monthCosts <- renderInfoBox({
+    infoBox(title = "Total costs over 12 months", 
+            value = totalCosts() %>% pull(costF), 
+            icon = icon("dollar-sign"),
+            color = "teal")
   })
   
   
@@ -1068,12 +1128,12 @@ server <- function(input, output, session) {
                                          monthlyCosts() %>% filter(str_detect(label, "Info folders for new participants") & month==1) %>% pull(costF), 
                                          " per month, based on your expected recruitment numbers."))
   
-  output$sessionShells <- renderText(paste0("If counselors use paper shells provided by the original intervention developers, the paper for these will cost at most ", 
+  output$sessionShells <- renderText(paste0("If counselors use paper shells provided by the original program developers, the paper for these will cost at most ", 
                                             scales::dollar(sessionShellCosts_Month6(), largest_with_cents = 1), " per month."))
   
   
   
-  output$spaceCosts <- renderText(paste0("We expect space for intervention providers to cost about: ", 
+  output$spaceCosts <- renderText(paste0("We expect space for program providers to cost about: ", 
                                          scales::dollar(spaceCostPerMonth(), largest_with_cents = 1), 
                                          " based on ", 
                                          FTE(), " FTEs per month and monthly space costs of ", 
@@ -1097,7 +1157,7 @@ server <- function(input, output, session) {
   
   
   
-  # output$PRINTING <- renderText(paste0(FTEs() %>% filter(month==12) %>% select(FTE) %>% sum()))
+  # output$PRINTING <- renderText(paste0(notSoBigData2()))
   
   
   
@@ -1110,8 +1170,6 @@ server <- function(input, output, session) {
                     fill=fct_reorder(Category, totalCosts), 
                     text=label3)) + 
       geom_bar(stat="identity", position="stack") + 
-      # geom_text(aes(label=costF), position = position_stack(vjust=0.5), size=3) +
-      theme_bw() + 
       
       # these colors were selected manually by looking at show_col(pal_d3("category10")(10))
       # and picking which colors I wanted to go with each
@@ -1134,6 +1192,31 @@ server <- function(input, output, session) {
     
     ggplotly(pp, tooltip=c("text"))
     
+  })
+  
+  
+  ### Monthly costs plot ----
+  output$monthlyCostsPlot <- renderPlotly({
+    pp<- ggplot(data=monthlyTotals(), 
+                aes(x=month, 
+                    y=totalCostsMonthly, 
+                    text=totalCostsMonthlyF)) + 
+      geom_bar(stat="identity", fill="lightgray", colour="black") + 
+      theme_bw() + 
+      geom_text(aes(label=totalCostsMonthlyF), angle=45) + 
+      
+      scale_y_continuous(labels = scales::label_dollar()) + 
+      scale_x_continuous(breaks = c(seq(0, 12, 1))) + 
+      theme(strip.background=element_rect(fill="lightgray", 
+                                          color="black", 
+                                          linetype="solid"), 
+            strip.text = element_text(face="bold", size=12), 
+            # axis.title.x = element_blank(), 
+            axis.title.y = element_blank(),
+            axis.text.y = element_text(size=10), 
+            axis.text.x = element_text(size=10),
+            legend.position = "bottom"
+      ) 
   })
   
   ### FTE over time ----
@@ -1167,8 +1250,15 @@ server <- function(input, output, session) {
   
   
   ### Tables ----
-  output$tableTest <- renderReactable({reactable(monthlyCosts(), 
-                                                 filterable = TRUE)})
+  output$tableTest <- renderReactable({reactable(notSoBigData2() %>% select(Month=month, Category, Total = totalCosts, Breakdown=label2),
+                                                groupBy = "Month", 
+                                                columns = list(Total = colDef(minWidth=75,
+                                                                              aggregate = "sum", format=colFormat(prefix = "$", separators = TRUE, digits = 0)), 
+                                                               Month = colDef(minWidth = 50), 
+                                                               Category = colDef(minWidth=100),
+                                                               Breakdown = colDef(minWidth = 250)), 
+                                                minRows = 15
+                                                 )})
   
   
   output$fteTable <- renderReactable({reactable(altFTE())})
@@ -1187,7 +1277,7 @@ server <- function(input, output, session) {
   # inputDownloadTable <- reactive({tribble(~category, ~name, ~value,
   #                                         "Training", "Is travel required for counselors to take the TTS training course?", ttsTravelRequired(),
   #                                         "Training", "Approximately how many hours will the counselors have to travel for the course (one way)?" , ttsTravelHours(),
-  #                                         "Recurring supervision", "The intervention team will have regular meetings for to check in onintervention/implementation", checkin(),
+  #                                         "Recurring supervision", "The program team will have regular meetings for to check in onprogram/implementation", checkin(),
   #                                         "Recurring supervision", "How many meetings per month do you anticipate?", checkinRecurrence(),
   #                                         "Wages", "FTTS counselor", hourlySalaryOfCounselor(),
   #                                         "Wages", "Project Director", hourlySalaryOfPD(),
