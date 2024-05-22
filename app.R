@@ -118,7 +118,10 @@ ui <- dashboardPage(
                          p("This tool takes the results from that trial and allows users to adjust inputs to reflect characteristics of their individual setting such as staffing and patient volume."),
                          
                          p(strong("Key Results:"), "The trial found that 34.5% of patients who received an intensive smoking cessation program quit, while 21.5% of those who received standard smoking cessation guidance quit. 
-                    Using existing literature, we expect that an estimated 14.3% of individuals would quit smoking under referral to the state quit line, which we consider to be 'usual care'.")
+                    Using existing literature, we expect that an estimated 14.3% of individuals would quit smoking under referral to the state quit line, which we consider to be 'usual care'."), 
+                         
+                         HTML("<p>The program was also <a href=https://pubmed.ncbi.nlm.nih.gov/35679043/>cost-effective</a>. Relative to receiving standard smoking cessation treatment, the intensive treatment cost $3,906 per quit. 
+                              Relative to usual care (referral to the state quitline), intensive treatment cost $9,866 per quit.</p>") 
                 ),
                 
                 tabPanel(title = "More program details", 
@@ -735,7 +738,7 @@ server <- function(input, output, session) {
   ttsCourse_Gas <- reactive({ttsTravelHours()*nonReactiveConstantList$gasCostPerHour*ttsTravelRequired()})  
   
   #### Motivational interview training ----
-  miInterviewTrainerCost <- reactive({nonReactiveConstantList$miSession_HoursPerCounselor*(as.numeric(blsWageTrainer)*(1+input$fringe))})
+  miInterviewTrainerCost <- reactive({nonReactiveConstantList$miSession_HoursPerCounselor*((as.numeric(blsWageTrainer)/2080)*(1+input$fringe))})
   
   
   #### Training admin/staff/assistant ----
